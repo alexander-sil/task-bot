@@ -30,9 +30,9 @@ jobs:
         run: |
           sed -i "s|^ALEMBIC_URL|${{ secrets.ALEMBIC_URL }}|" alembic.ini 
       
-      # - name: Replace token in ini file
-      #  run: |
-      #    sed -i "s|^TOKEN|${{ secrets.TELEGRAM_BOT_TOKEN }}|" config.ini 
+      - name: Replace token in ini file
+        run: |
+          sed -i "s|^TOKEN|${{ secrets.TELEGRAM_BOT_TOKEN }}|" config.ini 
 
       - name: Replace DB username in ini file
         run: |
