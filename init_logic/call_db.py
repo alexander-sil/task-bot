@@ -22,7 +22,7 @@ async def init_db():
         database=db_conf.dbname,
         host=db_conf.host,
     )
-    print("Подключение к БД успешно.")
+    print("Подключение к БД успешно")
 
     # Проверка наличия таблиц
     table_check_sql = read_sql_file("table_check.sql")
@@ -31,15 +31,15 @@ async def init_db():
 
     expected_tables = {'users', 'tasks', 'time_entries', 'comments'}
     if expected_tables.issubset(existing_tables):
-        print("Все таблицы уже существуют.")
+        print("Все таблицы уже существуют")
     else:
-        print("Создание недостающих таблиц...")
+        print("Создание недостающих таблиц")
         create_sql = read_sql_file("create_tables.sql")
         await conn.execute(create_sql)
-        print("Таблицы успешно созданы.")
+        print("Таблицы успешно созданы")
 
     # Применение вспомогательных объектов (триггеры, представление, индексы)
-    print("Применение вспомогательных объектов...")
+    print("Применение вспомогательных объектов")
 
     helpers_sql = read_sql_file("create_helpers.sql")
 
