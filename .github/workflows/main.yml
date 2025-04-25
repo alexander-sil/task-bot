@@ -28,7 +28,7 @@ jobs:
 
       - name: Replace Alembic URL in configuration
         run: |
-          sed -i "s|^token = .*|token = ${{ secrets.ALEMBIC_URL }}|" config.ini 
+          sed -i "s|^sqlalchemy.url = .*|sqlalchemy.url = ${{ secrets.ALEMBIC_URL }}|" alembic.ini 
       
       - name: Replace token in ini file
         run: |
