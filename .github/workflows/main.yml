@@ -34,7 +34,9 @@ jobs:
         run: |
           sed -i "s|^password = .*|password = ${{ secrets.DB_PASSWORD }}|" config.ini 
 
-      - name: Replace server info in ini file
+
+      - name: Replace DB hostname in ini file
+
         run: |
           sed -i "s|^host = .*|host = ${{ secrets.DB_IP }}|" config.ini
 
