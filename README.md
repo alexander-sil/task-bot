@@ -1,39 +1,38 @@
 ## Проект на автомат за экзамены по двум дисциплинам
 ### Александр Силицкий, ГБПОУ "Колледж связи №54" им. П.М. Вострухина, группа 1АСС11-8, отделение ОП-6 АСТ
-Бот развёртывается посредством включения контейнера Docker на VPS-сервер и его установки через SSH. Для хранения секретов вместо .env-файла реализованы переменные среды в GitHub Actions. Небезопасное хранение токена в самом репозитории обусловлено самим пайплайном процесса развёртывания приложения, в ходе которого контейнеризованное приложение вытягивает токен из конфигурационного INI-файла. Также реализована возможность одновременного подъёма бота и базы через Docker Compose (`compose.yaml`). Бот асинхронный, написан на Python 3.13, в качестве БД используется PostgreSQL. Планируется реализация считывания запроса для автоинициализации БД из файла. В связи с практической проблематичностью достижения 80% покрытия кода, минимизация тестов компенсируется значительной работой, проделанной в сфере DevOps|CI/CD и настройки деплоймента.
+Бот развёртывается посредством включения контейнера Docker на VPS-сервер и его установки через SSH. Для хранения секретов вместо .env-файла реализованы переменные среды в GitHub Actions. Небезопасное хранение токена в самом репозитории обусловлено самим пайплайном процесса развёртывания приложения, в ходе которого контейнеризованное приложение вытягивает токен из конфигурационного INI-файла. Также реализована возможность одновременного подъёма бота и базы через Docker Compose (`compose.yaml`). Бот асинхронный, написан на Python 3.13, в качестве БД используется PostgreSQL. Планируется реализация считывания запроса для автоинициализации БД из файла.
 
-# Telegram Bot Task Planner
+# Бот Telegram для управления задачами
 
-This is a Telegram bot designed to help you manage your tasks efficiently. The bot provides the following functionalities:
+Функциональные возможности:
 
-- **List Tasks**: View all your current tasks.
-- **Create Task**: Add a new task to your list.
-- **Delete Task**: Remove a task from your list.
-- **Edit Task**: Modify an existing task.
+- Просмотр задач
+- Создание задач
+- Удаление задач
+- Редактирование задач
 
-## Features
+## Стек
 
-- Simple and intuitive task management via Telegram.
-- Persistent storage using PostgreSQL.
-- Easy deployment with Docker Compose.
+- База данных - PostgreSQL
+- Возможность оркестрации с Docker Compose
 
-## Prerequisites
+## Требования
 
-- Docker and Docker Compose installed on your system.
-- A Telegram bot token. You can obtain one by creating a bot through [BotFather](https://core.telegram.org/bots#botfather).
+- Docker и Docker Compose (желательно с бэкендом WSL2)
+- Токен для бота Telegram
 
-## Installation
+## Установка
 
-1. Clone this repository:
+1. Клонировать репозиторий
     ```bash
     git clone <repository-url>
     cd <repository-folder>
     ```
 
-2. Install the required packages.
+2. Установить пакеты
     ```pip install -r requirements.txt```
 
-3. Modify the `config.ini` file to meet your requirements
+3. Редактировать INI-файл
     ```[database]
     user = postgres
     password = Passlogin1.
@@ -42,21 +41,15 @@ This is a Telegram bot designed to help you manage your tasks efficiently. The b
     port = 5432
     ```
 
-4. Edit the `compose.yaml` file to correspond the PostgreSQL settings to ones outlined in the bot configuration.
+4. Адаптировать файл `compose.yaml` под ваши требования
 
-5. Start the application using Docker Compose:
+5. Запустить приложение через Docker Compose
     ```bash
     docker-compose up --build
     ```
 
-6. The bot will now be running and connected to your Telegram account.
+## Структура проекта
 
-## Project Structure
-
-- `./` - Contains the bot's source code.
-- `./compose.yaml` - Configuration file for Docker Compose.
-- `./config.ini` - Contains a configuration script for the bot.
-
-## Contributing
-
-Contributions are welcome! Feel free to open an issue or submit a pull request.
+- `./` - Исходный код бота
+- `./config.ini` - Конфигурационный файл бота
+- `./compose.yaml` - Конфигурационный файл Docker Compose
