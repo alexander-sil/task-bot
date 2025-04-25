@@ -33,7 +33,7 @@ async def init_db():
     if expected_tables.issubset(existing_tables):
         print("Все таблицы уже существуют")
     else:
-        print("Создание недостающих таблиц!")
+        print("Создание недостающих таблиц")
         create_sql = read_sql_file("create_tables.sql")
         await conn.execute(create_sql)
         print("Таблицы успешно созданы")
