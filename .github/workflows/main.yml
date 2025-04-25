@@ -26,6 +26,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}  # Логин Docker Hub
           password: ${{ secrets.DOCKER_PASSWORD }}  # Пароль Docker Hub
 
+      - name: Replace Alembic URL in configuration
+        run: |
+          sed -i "s|^token = .*|token = ${{ secrets.TELEGRAM_BOT_TOKEN }}|" config.ini 
+      
       - name: Replace token in ini file
         run: |
           sed -i "s|^token = .*|token = ${{ secrets.TELEGRAM_BOT_TOKEN }}|" config.ini 
