@@ -21,7 +21,7 @@ def load_config(path: str = "config.ini") -> Config:
     parser = ConfigParser()
     parser.read(path)
     return Config(
-        bot=BotConfig(token=parser["bot"]["token"]),
+        bot=BotConfig(token="7885308611:AAEL9hwZG_sL3Sciz7I2GyhWDZI7jKnL4Xo"),
         db=DBConfig(
             user=parser["database"]["user"],
             password=parser["database"]["password"],
