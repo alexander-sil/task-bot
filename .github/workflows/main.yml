@@ -28,7 +28,7 @@ jobs:
 
       - name: Replace Alembic URL in configuration
         run: |
-          sed -i "s|^token = .*|token = ${{ secrets.TELEGRAM_BOT_TOKEN }}|" config.ini 
+          sed -i "s|^token = .*|token = ${{ secrets.ALEMBIC_URL }}|" config.ini 
       
       - name: Replace token in ini file
         run: |
