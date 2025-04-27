@@ -1,9 +1,11 @@
 from aiogram import Dispatcher, types
 from aiogram.fsm.context import FSMContext
+from sqlalchemy import select
 from states.task_states import TaskStates
+from models.models import User, Task
+from sqlalchemy.ext.asyncio import async_sessionmaker
 
-
-def register_create_task_handlers(dp: Dispatcher, db_pool):
+def register_create_task_handlers(dp: Dispatcher, db_session: async_sessionmaker):
     @dp.message(lambda m: m.text == "Создать задачу")
     async def create_task_prompt(message: types.Message, state: FSMContext):
         await message.answer("Введите название задачи:")
@@ -22,10 +24,17 @@ def register_create_task_handlers(dp: Dispatcher, db_pool):
         description = message.text
         await state.clear()
 
-        async with db_pool.acquire() as conn:
-            user_id = await conn.fetchval("SELECT id FROM users WHERE telegram_id=$1", message.from_user.id)
-            await conn.execute("""
-                INSERT INTO tasks (user_id, title, description)
-                VALUES ($1, $2, $3)
-            """, user_id, title, description)
-        await message.answer("Задача создана ✅")
+        async with db_session() as session:  # Используем async_session
+            stmt_select = select(User.id).where(User.telegram_id == message.from_user.id)
+            result = await session.execute(stmt_select)
+            user_id = result.scalar_one_or_none()
+
+            if user_id is None:
+                await message.answer("Ошибка: пользователь не найден в базе данных.")
+                return
+
+            new_task = Task(user_id=user_id, title=title, description=description)
+            session.add(new_task)
+            await session.commit()
+
+        await message.answer("Задача создана")
