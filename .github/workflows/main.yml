@@ -26,19 +26,33 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}  # Логин Docker Hub
           password: ${{ secrets.DOCKER_PASSWORD }}  # Пароль Docker Hub
 
-      - name: Replace token in ini file
+      - name: Replace Alembic URL in configuration
         run: |
-          sed -i "s|^token = .*|token = ${{ secrets.TELEGRAM_BOT_TOKEN }}|" config.ini 
+          sed -i "s|^ALEMBIC_URL|${{ secrets.ALEMBIC_URL }}|" alembic.ini 
+      
+      # - name: Replace token in ini file
+      #  run: |
+      #    sed -i "s|^TOKEN|${{ secrets.TELEGRAM_BOT_TOKEN }}|" config.ini 
+
+      - name: Replace DB username in ini file
+        run: |
+          sed -i "s|^NAME|${{ secrets.DB_USER }}|" config.ini 
+
+      - name: Replace DB initial catalog in ini file
+        run: |
+          sed -i "s|^DBNAME|${{ secrets.DB_NAME }}|" config.ini 
+
+      - name: Replace DB port in ini file
+        run: |
+          sed -i "s|^DBPORT|${{ secrets.DB_PORT }}|" config.ini 
 
       - name: Replace DB password in ini file
         run: |
-          sed -i "s|^password = .*|password = ${{ secrets.DB_PASSWORD }}|" config.ini 
-
+          sed -i "s|^PASSWORD|${{ secrets.DB_PASSWORD }}|" config.ini 
 
       - name: Replace DB hostname in ini file
-
         run: |
-          sed -i "s|^host = .*|host = ${{ secrets.DB_IP }}|" config.ini
+          sed -i "s|^IP|${{ secrets.DB_IP }}|" config.ini
 
       - name: Docker Build Container
         run: |
