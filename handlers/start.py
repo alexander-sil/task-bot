@@ -2,7 +2,7 @@ from aiogram import Dispatcher, types
 from aiogram.filters import Command
 from sqlalchemy import select
 from models.models import User
-from .common import main_kb
+from keyboards.main import main_kb
 
 def register_start_handler(dp: Dispatcher, db_session):
     @dp.message(Command("start"))

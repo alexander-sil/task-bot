@@ -9,3 +9,7 @@ class TaskStates(StatesGroup):
     waiting_for_new_description = State()
     waiting_for_task_id_to_comment = State()
     waiting_for_comment = State()
+    waiting_for_task_id = State()
+    waiting_for_start_time = State()
+    waiting_for_end_time = State()
+    waiting_for_task_id_for_comments = State()
