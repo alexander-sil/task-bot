@@ -1,4 +1,3 @@
-# handlers/list_tasks.py
 from aiogram import Dispatcher, types
 from sqlalchemy import select
 from models.models import Task, User

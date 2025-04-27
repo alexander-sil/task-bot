@@ -1,4 +1,3 @@
-# handlers/start.py
 from aiogram import Dispatcher, types
 from aiogram.filters import Command
 from sqlalchemy import select
