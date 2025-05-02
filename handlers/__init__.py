@@ -8,6 +8,7 @@ from .check_comments import register_view_comments_handler
 from handlers.create_task import register_create_task_handlers
 from .time_entries_check import register_view_time_entries_handler
 from .time_entry import register_time_entry_handlers
+from .info import register_info_handler
 from db import async_session
 
 
@@ -21,3 +22,4 @@ def register_handlers(dp, db_pool):
     register_view_comments_handler(dp, async_session)
     register_view_time_entries_handler(dp, async_session)
     register_time_entry_handlers(dp, async_session)
+    register_info_handler(dp, async_session)

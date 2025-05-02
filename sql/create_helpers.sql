@@ -49,6 +49,41 @@ LEFT JOIN time_entries te ON t.id = te.task_id
 GROUP BY t.id, t.title, s.status, u.first_name, u.last_name, t.due_date;
 
 
+CREATE OR REPLACE FUNCTION set_default_status()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Добавляем запись в таблицу статусов с task_id и значением "Новое"
+    INSERT INTO statuses (task_id, status)
+    VALUES (NEW.id, 'Новое');
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER trigger_set_default_status
+AFTER INSERT ON tasks
+FOR EACH ROW
+EXECUTE FUNCTION set_default_status();
+
+
+
+CREATE OR REPLACE FUNCTION set_default_due_date()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.due_date IS NULL THEN
+        NEW.due_date := NEW.created_at + INTERVAL '3 days';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER trigger_set_default_due_date
+BEFORE INSERT ON tasks
+FOR EACH ROW
+EXECUTE FUNCTION set_default_due_date();
+
+
 -- индекс Индекс на task_id в comments — ускоряет выборку комментариев по задаче, если их много
 
 CREATE INDEX IF NOT EXISTS idx_comments_task_id ON comments(task_id);

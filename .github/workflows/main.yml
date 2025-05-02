@@ -3,7 +3,7 @@ name: Docker Compose Up on Green Checkmark
 on:
   push:
     branches:
-      - main # Or your main branch name
+      - main
     paths-ignore:
       - '**.md'
       - 'LICENSE'
@@ -23,41 +23,41 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}  # Логин Docker Hub
-          password: ${{ secrets.DOCKER_PASSWORD }}  # Пароль Docker Hub
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Replace Alembic URL in configuration
         run: |
-          sed -i "s|^ALEMBIC_URL|${{ secrets.ALEMBIC_URL }}|" alembic.ini 
-      
-      # - name: Replace token in ini file
-      #  run: |
-      #    sed -i "s|^TOKEN|${{ secrets.TELEGRAM_BOT_TOKEN }}|" config.ini 
+          sed -i "s|^sqlalchemy.url=.*|sqlalchemy.url=${{ secrets.ALEMBIC_URL }}|" alembic.ini 
+
+      - name: Replace token in ini file
+        run: |
+          sed -i "s|^token=.*|token=${{ secrets.TELEGRAM_BOT_TOKEN }}|" config.ini
 
       - name: Replace DB username in ini file
         run: |
-          sed -i "s|^NAME|${{ secrets.DB_USER }}|" config.ini 
+          sed -i "s|^user=.*|user=${{ secrets.DB_USER }}|" config.ini 
 
       - name: Replace DB initial catalog in ini file
         run: |
-          sed -i "s|^DBNAME|${{ secrets.DB_NAME }}|" config.ini 
+          sed -i "s|^dbname=.*|dbname=${{ secrets.DB_NAME }}|" config.ini 
 
       - name: Replace DB port in ini file
         run: |
-          sed -i "s|^DBPORT|${{ secrets.DB_PORT }}|" config.ini 
+          sed -i "s|^port=.*|port=${{ secrets.DB_PORT }}|" config.ini 
 
       - name: Replace DB password in ini file
         run: |
-          sed -i "s|^PASSWORD|${{ secrets.DB_PASSWORD }}|" config.ini 
+          sed -i "s|^password=.*|password=${{ secrets.DB_PASSWORD }}|" config.ini 
 
       - name: Replace DB hostname in ini file
         run: |
-          sed -i "s|^IP|${{ secrets.DB_IP }}|" config.ini
+          sed -i "s|^host=.*|host=${{ secrets.DB_IP }}|" config.ini
 
       - name: Docker Build Container
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/task-bot-srv:latest .
-      
+
       - name: Docker Push Image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/task-bot-srv:latest
