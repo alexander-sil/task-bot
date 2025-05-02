@@ -29,7 +29,7 @@ jobs:
       - name: Replace Alembic URL in configuration
         run: |
           sed -i "s|^sqlalchemy.url=.*|sqlalchemy.url=${{ secrets.ALEMBIC_URL }}|" alembic.ini 
-      
+
       - name: Replace token in ini file
         run: |
           sed -i "s|^token=.*|token=${{ secrets.TELEGRAM_BOT_TOKEN }}|" config.ini
@@ -57,7 +57,7 @@ jobs:
       - name: Docker Build Container
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/task-bot-srv:latest .
-      
+
       - name: Docker Push Image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/task-bot-srv:latest

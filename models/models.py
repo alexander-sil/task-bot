@@ -15,9 +15,11 @@ class User(Base):
     last_name = Column(String(255))
     username = Column(String(255))
     created_at = Column(TIMESTAMP, server_default=func.current_timestamp())
+    is_admin = Column(Boolean, server_default='false', nullable=False)  # <--- Новое поле
 
     tasks = relationship('Task', back_populates='user', cascade='all, delete-orphan')
     comments = relationship('Comment', back_populates='user', cascade='all, delete-orphan')
+
 
 
 class Task(Base):
