@@ -1,7 +1,7 @@
 from aiogram import Dispatcher, types
 from aiogram.filters import Command
 from sqlalchemy import text, select
-from models.models import User  # Убедись, что модель User импортирована
+from models.models import User
 import pandas as pd
 import io
 from datetime import timedelta
